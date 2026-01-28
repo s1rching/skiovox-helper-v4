@@ -9,12 +9,11 @@ class BackgroundController {
     constructor(element) {
         this.element = element
         this.makeColorInput()
-        this.makeImageInput()
+        this.makeImageInput() // added for image import
         this.startListeners()
-        this.displaySavedBackground()
+        this.displaySavedBackground() // updated to handle image or color
     }
 
-    // COLOR INPUT
     makeColorInput() {
         this.colorInput = document.createElement('input')
         this.colorInput.type = "color"
@@ -47,11 +46,10 @@ class BackgroundController {
         }
     }
 
-    // COLOR HANDLING
     onInput() {
-        const value = this.colorInput.value
+        let value = this.colorInput.value
         this.setSavedColor(value)
-        this.setSavedImage(null)  // clear image if choosing color
+        this.setSavedImage(null) // clear image if choosing color
         this.displayColor(value)
     }
 
@@ -60,7 +58,11 @@ class BackgroundController {
     }
 
     setSavedColor(value) {
-        localStorage.savedColor = value
+        if (value) {
+            localStorage.savedColor = value
+        } else {
+            localStorage.removeItem("savedColor")
+        }
     }
 
     hasSavedColor() {
@@ -68,7 +70,7 @@ class BackgroundController {
     }
 
     displayColor(color) {
-        document.body.style.backgroundImage = "" // remove image if using color
+        document.body.style.backgroundImage = "" // remove any image
         document.body.style.backgroundColor = color
         if (BackgroundController.getTextColor(color) === TextColors.BLACK) {
             document.body.classList.add("black-text")
@@ -109,10 +111,9 @@ class BackgroundController {
         document.body.style.backgroundImage = `url(${dataUrl})`
         document.body.style.backgroundSize = "cover"
         document.body.style.backgroundPosition = "center"
-        document.body.classList.remove("black-text") // optional: you could add logic for text color over images
+        document.body.classList.remove("black-text") // optional, could add dynamic text color later
     }
 
-    // DISPLAY SAVED BACKGROUND
     displaySavedBackground() {
         const savedImage = this.getSavedImage()
         if (savedImage) {
@@ -124,7 +125,6 @@ class BackgroundController {
         }
     }
 
-    // TEXT COLOR CALCULATION
     static getTextColor(color) {
         let [r, g, b] = [1, 3, 5].map(n => parseInt(color.substr(n, 2), 16));
         let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "version": "4.1.4",
   "name": "Skiovox Helper",
-  "description": "A helper for the Skiovox exploit -- read more at skiovox.com",
+  "description": "A helper for the Skiovox exploit",
   "icons": {
     "128": "icon.png"
   },

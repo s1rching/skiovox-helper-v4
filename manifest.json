@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "4.1.4",
+  "version": "4.1.5",
   "name": "Skiovox Helper",
   "description": "A helper for the Skiovox exploit",
   "icons": {
